@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets / local env
+*.env
+.env
+*-secret.yaml
+values-local.yaml
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Benchmark/raw outputs (keep curated CSVs by committing explicitly if needed)
+*.tmp
