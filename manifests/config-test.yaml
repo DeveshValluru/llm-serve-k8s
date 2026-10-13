@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-test
+spec:
+  containers:
+    - name: c
+      image: busybox
+      command: ["sh", "-c", "env | grep -E 'MODEL_NAME|MAX_TOKENS|HF_TOKEN'; sleep 3600"]
+      envFrom:
+        - configMapRef:
+            name: app-config
+      env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token
+              key: HF_TOKEN
