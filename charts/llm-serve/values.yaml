@@ -1,0 +1,21 @@
+replicas: 1
+
+image:
+  repository: llm-v0
+  tag: "0.1"
+  pullPolicy: IfNotPresent
+
+containerPort: 8000
+
+service:
+  port: 80
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+
+cache:
+  size: 5Gi
