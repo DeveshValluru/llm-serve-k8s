@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-v0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-v0
+  template:
+    metadata:
+      labels:
+        app: llm-v0
+    spec:
+      containers:
+        - name: server
+          image: llm-v0:0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+          startupProbe:
+            httpGet: { path: /healthz, port: 8000 }
+            failureThreshold: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet: { path: /ready, port: 8000 }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8000 }
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-v0
+spec:
+  selector:
+    app: llm-v0
+  ports:
+    - port: 80
+      targetPort: 8000
