@@ -34,6 +34,16 @@ spec:
           livenessProbe:
             httpGet: { path: /healthz, port: 8000 }
             periodSeconds: 10
+          env:
+            - name: HF_HOME
+              value: /cache
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: model-cache
 
 ---
 apiVersion: v1

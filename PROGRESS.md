@@ -16,7 +16,7 @@ Legend: ✅ done · 🔄 in progress · ⬜ not started
 | 3 | Services, networking, DNS (ClusterIP, Endpoints, CoreDNS) | ✅ | `manifests/hello-svc.yaml`, `docs/day03-notes.md` | ✅ |
 | 4 | Config, Secrets, Resources (requests/limits, OOMKilled, Pending, QoS) | ✅ | `manifests/config-test.yaml`, `oom-test.yaml`, `too-big.yaml`, `docs/day04-notes.md` | ✅ |
 | 5 | Health probes & first LLM server (FastAPI, Docker, kind load, probes) | ✅ | `app/app.py`, `app/Dockerfile`, `manifests/llm-v0.yaml`, `docs/day05-notes.md` | ✅ |
-| 6 | Storage & model caching (PVC, cold vs warm start) | ⬜ | `manifests/model-cache.yaml`, `docs/day06-notes.md` | ⬜ |
+| 6 | Storage & model caching (PVC, cold vs warm start) | ✅ | `manifests/model-cache.yaml`, `docs/day06-notes.md` | ✅ |
 | 7 | Helm (chart, values, upgrade/rollback) | ⬜ | `charts/llm-serve`, tag `v0.1` | ⬜ |
 
 ## Week 2 — Real inference serving, scaling, observability
