@@ -1,0 +1,36 @@
+# GPU engine: vLLM OpenAI-compatible server. For Day 16 on minikube + RTX 4060.
+# Usage: helm upgrade --install llm charts/llm-serve -f charts/llm-serve/values-gpu.yaml
+# NOTE: needs an hf-token Secret in the namespace, and (added on Day 16) a
+#       memory-backed /dev/shm volume. Model/flags tuned for ~8 GB VRAM.
+engine:
+  image: "vllm/vllm-openai:latest"
+  pullPolicy: IfNotPresent
+  args:
+    - "--model"
+    - "Qwen/Qwen2.5-1.5B-Instruct"
+    - "--max-model-len"
+    - "4096"
+    - "--gpu-memory-utilization"
+    - "0.90"
+  port: 8000
+  startupPath: /health       # vLLM exposes /health (not /ready)
+  livenessPath: /health
+  readinessPath: /health
+
+gpu:
+  enabled: true
+  count: 1
+
+resources:
+  requests:
+    memory: 4Gi
+    cpu: "2"
+  limits:
+    memory: 8Gi
+
+env:
+  - name: HF_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: hf-token
+        key: HF_TOKEN

@@ -1,11 +1,15 @@
 replicas: 1
 
-image:
-  repository: llm-v0
-  tag: "0.1"
+# The inference engine is fully configurable so one chart serves many engines.
+# Defaults below = our local FastAPI SmolLM2 server (CPU, on kind).
+engine:
+  image: "llm-v0:0.1"
   pullPolicy: IfNotPresent
-
-containerPort: 8000
+  args: []                 # extra container args (vLLM uses these; FastAPI uses its CMD)
+  port: 8000
+  startupPath: /healthz    # health endpoints differ per engine!
+  livenessPath: /healthz
+  readinessPath: /ready
 
 service:
   port: 80
@@ -17,5 +21,14 @@ resources:
   limits:
     memory: 2Gi
 
+# GPU request (off by default; values-gpu.yaml turns it on for Day 16).
+gpu:
+  enabled: false
+  count: 1
+
+# Extra env vars (e.g. the HF token on GPU). HF_HOME is always set to the cache path.
+env: []
+
 cache:
   size: 5Gi
+  mountPath: /cache

@@ -23,8 +23,8 @@ Legend: ✅ done · 🔄 in progress · ⬜ not started
 
 | Day | Topic | Status | Deliverable | Committed |
 |----|-------|:------:|-------------|:---------:|
-| 8 | LLM inference fundamentals (reading) | ⬜ | `docs/inference-primer.md` | ⬜ |
-| 9 | OpenAI-compatible serving (vLLM-ready chart) | ⬜ | chart w/ engine values, `values-gpu.yaml` | ⬜ |
+| 8 | LLM inference fundamentals (reading) | ✅ | reviewed (primer skipped — already knew it) | — |
+| 9 | OpenAI-compatible serving (vLLM-ready chart) | ✅ | chart w/ engine values, `values-local.yaml`, `values-gpu.yaml`, `docs/day09-notes.md` | ✅ |
 | 10 | Ingress / Gateway & streaming (SSE) | ⬜ | `charts/.../ingress.yaml`, `docs/day10-notes.md` | ⬜ |
 | 11 | Observability 1 — Prometheus (ServiceMonitor, PromQL) | ⬜ | `dashboards/queries.md` | ⬜ |
 | 12 | Observability 2 — Grafana & alerts | ⬜ | `dashboards/llm-inference.json` + screenshot | ⬜ |

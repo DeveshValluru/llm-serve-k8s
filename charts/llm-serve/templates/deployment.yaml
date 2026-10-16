@@ -16,32 +16,42 @@ spec:
     spec:
       containers:
         - name: server
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.engine.image }}"
+          imagePullPolicy: {{ .Values.engine.pullPolicy }}
+          {{- with .Values.engine.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
-            - containerPort: {{ .Values.containerPort }}
+            - containerPort: {{ .Values.engine.port }}
+          env:
+            - name: HF_HOME
+              value: {{ .Values.cache.mountPath | quote }}
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           resources:
             requests:
               memory: {{ .Values.resources.requests.memory | quote }}
               cpu: {{ .Values.resources.requests.cpu | quote }}
             limits:
               memory: {{ .Values.resources.limits.memory | quote }}
-          env:
-            - name: HF_HOME
-              value: /cache
+              {{- if .Values.gpu.enabled }}
+              nvidia.com/gpu: {{ .Values.gpu.count }}
+              {{- end }}
           startupProbe:
-            httpGet: { path: /healthz, port: {{ .Values.containerPort }} }
+            httpGet: { path: {{ .Values.engine.startupPath }}, port: {{ .Values.engine.port }} }
             failureThreshold: 60
             periodSeconds: 5
           readinessProbe:
-            httpGet: { path: /ready, port: {{ .Values.containerPort }} }
+            httpGet: { path: {{ .Values.engine.readinessPath }}, port: {{ .Values.engine.port }} }
             periodSeconds: 5
           livenessProbe:
-            httpGet: { path: /healthz, port: {{ .Values.containerPort }} }
+            httpGet: { path: {{ .Values.engine.livenessPath }}, port: {{ .Values.engine.port }} }
             periodSeconds: 10
           volumeMounts:
             - name: cache
-              mountPath: /cache
+              mountPath: {{ .Values.cache.mountPath }}
       volumes:
         - name: cache
           persistentVolumeClaim:
