@@ -8,7 +8,6 @@ venv/
 *.env
 .env
 *-secret.yaml
-values-local.yaml
 
 # OS / editor
 .DS_Store

@@ -1,0 +1,20 @@
+# Local CPU engine: our FastAPI SmolLM2 server (runs on kind).
+# Usage: helm upgrade --install llm charts/llm-serve -f charts/llm-serve/values-local.yaml
+engine:
+  image: "llm-v0:0.1"
+  pullPolicy: IfNotPresent
+  args: []
+  port: 8000
+  startupPath: /healthz
+  livenessPath: /healthz
+  readinessPath: /ready
+
+gpu:
+  enabled: false
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
